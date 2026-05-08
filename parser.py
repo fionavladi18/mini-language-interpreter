@@ -11,6 +11,8 @@ statement nodes. The token stream is held in module-level variables
 
 Invalid syntax — a missing semicolon, a malformed expression,
 unmatched parentheses, etc. — raises SyntaxError.
+
+Author: Fiona Vladi
 """
 tokens_list = []
 pos = 0

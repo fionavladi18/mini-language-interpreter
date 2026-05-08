@@ -14,6 +14,8 @@ Enforces two semantic rules:
 
 After all statements are executed, prints each variable's value in
 the order it was first declared.
+
+Author: Fiona Vladi
 """
 def eval_expr(node, env, inside_let):
     kind = node[0]

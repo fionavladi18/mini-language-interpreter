@@ -9,6 +9,8 @@ Catches errors raised by any stage:
     specification for sample 5.
   - All other errors (syntax errors, uninitialized variables, etc.)
     print the generic message 'error'.
+
+Author: Fiona Vladi
 """
 
 import tokenizer
@@ -32,7 +34,7 @@ try:
 
     # Step 4: Interpret (evaluate and print)
     interpreter.execute(ast)
-    
+
 except ValueError as e:
     print("error, " + str(e))
 except Exception:

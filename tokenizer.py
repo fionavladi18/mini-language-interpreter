@@ -7,6 +7,8 @@ LET, IDENT, NUMBER, EQUALS, PLUS, MINUS, STAR, LPAREN, RPAREN, SEMI.
 
 Whitespace is skipped. Multi-digit numbers with leading zeros
 (e.g. '007') are rejected as syntax errors.
+
+Author: Fiona Vladi
 """
 
 def tokenize(source):
