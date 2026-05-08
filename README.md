@@ -1,36 +1,80 @@
-# Mini Language Interpreter
+# PLP Project — Language Interpreter
 
-An interpreter for a simple assignment-based language, written in Python.
-Built as a project for the Programming Languages and Paradigms course.
+An interpreter for a simple assignment-based language. Built in Python as a
+project for the Programming Languages course.
 
-## The language
+## About the language
 
-The language supports two kinds of statements:
+The language has two kinds of statements:
 
-- Normal assignments: `x = expr;`
-- Single-assignment (constant) declarations: `let x = expr;`
+- **Normal assignments** — `x = expr;` — the variable can be reassigned later.
+- **Single-assignment declarations** — `let x = expr;` — the variable is a constant,
+  and its right-hand side may only reference literals or other `let`-defined variables.
 
-Expressions support `+`, `-`, `*`, parentheses, unary `+`/`-`, integer literals, and identifiers.
+Expressions support `+`, `-`, `*`, parentheses, unary `+`/`-`, integer literals,
+and identifiers. Identifiers start with a letter or underscore; numbers
+cannot have leading zeros (so `007` is a syntax error, but `0` is fine).
 
-## What the interpreter detects
+The full grammar was provided in the project specification.
 
-1. **Syntax errors** — invalid tokens, missing semicolons, malformed expressions, leading-zero numbers, etc.
-2. **Uninitialized variables** — using a variable on the right-hand side that was never assigned.
-3. **Let-purity violations** — a `let` expression that references a normal (mutable) variable.
-4. **Successful programs** — prints all variable values after execution.
+## What the interpreter does
 
-## How it works
+For any input program, the interpreter detects:
 
-The interpreter is structured in three logical components, all in `interpreter.py`:
+1. **Syntax errors** — invalid tokens, missing semicolons, malformed expressions.
+2. **Uninitialized variables** — using a variable that was never assigned.
+3. **Let-purity violations** — a `let` declaration whose right-hand side
+   references a normal (mutable) variable.
 
-1. **Tokenizer** — turns source code into a list of tokens.
-2. **Parser** — recursive-descent parser that builds an abstract syntax tree (AST).
-3. **Evaluator** — walks the AST, maintains a symbol table, enforces semantic rules, and prints results.
+If no errors are found, it executes the program and prints all variables
+with their final values, in the order they were first declared.
+
+## Project structure
+
+The code is split into four files, each responsible for one stage of the pipeline:
+
+```
+tokenizer.py  →  parser.py  →  interpreter.py
+                                     ↑
+                                  main.py  (entry point)
+```
+
+
+- `tokenizer.py` — turns the source text into a list of tokens.
+- `parser.py` — recursive-descent parser; builds an AST from the tokens.
+- `interpreter.py` — walks the AST, evaluates expressions, prints results.
+- `main.py` — wires the three stages together and handles errors.
 
 ## How to run
 
 Requires Python 3.10 or later.
 
-1. Put your source code in `test1.txt`.
-2. Run: python interpreter.py
-3. The interpreter prints the variable values, or `error` (with an explanation for let-violations).
+1. Place the program you want to run in `test1.txt`.
+2. From the project folder, run:
+```
+   python main.py
+```
+3. The interpreter prints each variable's final value, or `error`.
+
+## Sample input/output
+
+Input (`test1.txt`):
+```
+let x = 1;
+y = 2;
+z = ---(x+y)*(x+-y);
+```
+
+Output:
+```
+x = 1
+y = 2
+z = 3
+```
+
+## What I learned from this project
+The AST finally printing was the moment I understood what was going on. Before that, it felt like random functions calling each other.
+
+The precedence thing was confusing because I kept thinking I forgot some rule, but it turned out the precedence comes from the parser structure itself.
+
+I had worked with Python a bit before this, so it was rough at first, but it got easier as I went.
